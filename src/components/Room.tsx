@@ -13,7 +13,7 @@ interface roomType{
   name:string,
   city:string,
   country:string,
-  rating:number,
+  rating:number | string,
   price:number
 }
 export default function Room(props:roomType) {

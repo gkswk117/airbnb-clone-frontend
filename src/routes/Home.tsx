@@ -2,8 +2,27 @@ import { Grid } from "@chakra-ui/react";
 import Room from "../components/Room";
 import { useEffect, useState } from "react";
 import RoomSkeleton from "../components/RoomSkeleton"
+import { useQuery } from "@tanstack/react-query";
+import { getRooms } from "../api";
+
+interface IPhoto {
+  pk: string;
+  file: string;
+  description: string;
+}
+interface IRoom {
+  pk: number;
+  name: string;
+  country: string;
+  city: string;
+  price: number;
+  rating: number | string;
+  is_owner: boolean;
+  photos: IPhoto[];
+}
 
 export default function Home() {
+  /* noob
   const [isLoading, setIsLoading] = useState(true)
   const [rooms, setRooms] = useState([])
   async function fetchRooms(){
@@ -14,12 +33,17 @@ export default function Home() {
   }
   useEffect(()=>{
     fetchRooms()
-
   }, [])
   useEffect(()=>{
     console.log("rooms is ")
     console.log(rooms)
-  },[rooms])
+  }, [rooms])
+  */
+  // pro
+  const {isLoading, data} = useQuery<IRoom[]>(["rooms"], getRooms)
+  //첫 번째 인자로 캐싱key를 받는다.
+  //두 번째 인자로 Promise를 반환하는 함수를 받는다.
+
   //"repeat(6, 1fr)" === "1fr 1fr 1fr 1fr 1fr 1fr"
   return (
     <Grid
@@ -39,8 +63,7 @@ export default function Home() {
       }}
     >
       {isLoading ? <><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/></>
-      :rooms.map((room)=><Room name={room["name"]} city={room["city"]} country={room["country"]} rating={room["rating"]==="리뷰 없음."?0:room["rating"]} price={room["price"]}/>)}
-      
+      :data?.map((room, index)=><Room key={index} name={room.name} city={room.city} country={room.country} rating={room.rating==="리뷰 없음."?0:room.rating} price={room.price}/>)}
     </Grid>
   );
 }
