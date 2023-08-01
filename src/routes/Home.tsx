@@ -3,7 +3,7 @@ import Room from "../components/Room";
 import { useEffect, useState } from "react";
 import RoomSkeleton from "../components/RoomSkeleton"
 import { useQuery } from "@tanstack/react-query";
-import { getRooms } from "../api";
+import { getAllRooms } from "../api";
 
 interface IPhoto {
   pk: string;
@@ -40,7 +40,7 @@ export default function Home() {
   }, [rooms])
   */
   // pro
-  const {isLoading, data} = useQuery<IRoom[]>(["rooms"], getRooms)
+  const {isLoading, data} = useQuery<IRoom[]>(["rooms"], getAllRooms)
   //첫 번째 인자로 캐싱key를 받는다.
   //두 번째 인자로 Promise를 반환하는 함수를 받는다.
 
@@ -62,8 +62,9 @@ export default function Home() {
         "2xl": "repeat(5, 1fr)",
       }}
     >
-      {isLoading ? <><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/></>
-      :data?.map((room, index)=><Room key={index} name={room.name} city={room.city} country={room.country} rating={room.rating==="리뷰 없음."?0:room.rating} price={room.price}/>)}
+      {isLoading
+      ? <><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/></>
+      : data?.map((room, index)=><Room key={index} pk={room.pk} name={room.name} city={room.city} country={room.country} rating={room.rating==="리뷰 없음."?0:room.rating} price={room.price}/>)}
     </Grid>
   );
 }
