@@ -1,25 +1,10 @@
 import { Grid } from "@chakra-ui/react";
 import Room from "../components/Room";
 import { useEffect, useState } from "react";
-import RoomSkeleton from "../components/RoomSkeleton"
+import RoomSkeleton from "../components/RoomSkeleton";
 import { useQuery } from "@tanstack/react-query";
 import { getAllRooms } from "../api";
-
-interface IPhoto {
-  pk: string;
-  file: string;
-  description: string;
-}
-interface IRoom {
-  pk: number;
-  name: string;
-  country: string;
-  city: string;
-  price: number;
-  rating: number | string;
-  is_owner: boolean;
-  photos: IPhoto[];
-}
+import { IRoomList } from "../types";
 
 export default function Home() {
   /* noob
@@ -40,7 +25,7 @@ export default function Home() {
   }, [rooms])
   */
   // pro
-  const {isLoading, data} = useQuery<IRoom[]>(["rooms"], getAllRooms)
+  const { isLoading, data } = useQuery<IRoomList[]>(["rooms"], getAllRooms);
   //첫 번째 인자로 캐싱key를 받는다.
   //두 번째 인자로 Promise를 반환하는 함수를 받는다.
 
@@ -62,9 +47,32 @@ export default function Home() {
         "2xl": "repeat(5, 1fr)",
       }}
     >
-      {isLoading
-      ? <><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/><RoomSkeleton/></>
-      : data?.map((room, index)=><Room key={index} pk={room.pk} name={room.name} city={room.city} country={room.country} rating={room.rating==="리뷰 없음."?0:room.rating} price={room.price}/>)}
+      {isLoading ? (
+        <>
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+        </>
+      ) : (
+        data?.map((room, index) => (
+          <Room
+            key={index}
+            pk={room.pk}
+            name={room.name}
+            city={room.city}
+            country={room.country}
+            rating={room.rating === "리뷰 없음." ? 0 : room.rating}
+            price={room.price}
+          />
+        ))
+      )}
     </Grid>
   );
 }
