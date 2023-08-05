@@ -8,10 +8,15 @@ export async function getRooms(){
   const response = await fetch(`${BASE_URL}/rooms/`)
   const json = await response.json()
   return json
+}
 */
 // pro
 const axiosInstance = axios.create({
-  baseURL:"http://127.0.0.1:8000/api/v1"
+  baseURL:"http://127.0.0.1:8000/api/v1",
+  withCredentials: true,
+  // 브라우저에서 "http://127.0.0.1:8000/api/v1"로 접속할 때는(get request를 보낼 때는) 자동으로 cookie를 포함시켜서 django 서버로 request를 보낸다.
+  // airbnb-clone-frontend 자바스크립트 코드에서 "http://127.0.0.1:8000/api/v1"로 request를 보낼때 자동으로 cookie가 포함되지 않는다.
+  // 그래서 withCredentials: true 를 추가시켜주고, airbnb-clone-backend의 settings.py에 CORS_ALLOW_CREDENTIALS = True를 적어준다.
 })
 export const getAllRooms = ()=> axiosInstance.get("rooms/").then(response=>response.data)
 export const getOneRoom = (something:QueryFunctionContext) => {
