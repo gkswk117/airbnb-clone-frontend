@@ -37,5 +37,8 @@ export const getRoomReviews = ({ queryKey }: QueryFunctionContext) => {
 };
 
 export const getMe = () => {
-  return axiosInstance.get(`users/mypage`).then((response)=>response.data)
+  return axiosInstance.get(`users/mypage`).then((response)=>response.data).catch(error => {
+    console.log(error)
+    return error
+  })
 }
