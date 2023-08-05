@@ -23,4 +23,6 @@ export const getRoomReviews = ({ queryKey }: QueryFunctionContext) => {
   return axiosInstance
     .get(`rooms/${roomPk}/reviews`)
     .then((response) => response.data);
+    // http://127.0.0.1:8000/api/v1/rooms/15/reviews?page=2 로 get request를 보내면 두 번째 리뷰3개묶음을 볼 수 있다.
+    // 디폴트로 첫 번째 리뷰3개를 받는다.
 };
