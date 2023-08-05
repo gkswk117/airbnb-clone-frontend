@@ -1,25 +1,42 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { getOneRoom } from "../api";
-import { IRoomDetail } from "../types";
-import { Box, Grid, GridItem, Heading, Skeleton, Image } from "@chakra-ui/react";
+import { getOneRoom, getRoomReviews } from "../api";
+import { IReview, IRoomDetail } from "../types";
+import {
+  Box,
+  Grid,
+  GridItem,
+  Heading,
+  Skeleton,
+  Image,
+  HStack,
+  VStack,
+  Avatar,
+  Text,
+} from "@chakra-ui/react";
+import { FaStar } from "react-icons/fa";
 
 export default function RoomDetail() {
   const { roomPk } = useParams();
   const { isLoading, data } = useQuery<IRoomDetail>([`rooms:${roomPk}`, roomPk], getOneRoom);
   // 변수의 값을 fetch 함수로 보내는 방법 => query key를 이용하면 된다.
+  const { data: reviewsData, isLoading: isReviewsLoading } = useQuery<IReview[]>(
+    [`rooms`, roomPk, `reviews`],
+    getRoomReviews
+  );
 
   console.log(data);
   // 매번 콘솔로 query를 확인했는데, ReactQueryDevtools 덕분에 작업하는 웹페이지에서 바로 query를 확인할 수 있다.
   return (
     <Box
+      pb={40}
       mt={10}
       px={{
         base: 10,
         lg: 40,
       }}
     >
-      <Skeleton height={"43px"} width="25%" isLoaded={!isLoading}>
+      <Skeleton height={"43px"} width="50%" isLoaded={!isLoading}>
         <Heading>{data?.name}</Heading>
       </Skeleton>
       <Grid
@@ -49,6 +66,36 @@ export default function RoomDetail() {
           </GridItem>
         ))}
       </Grid>
+      <HStack width={"40%"} justifyContent={"space-between"} mt={10}>
+        <VStack alignItems={"flex-start"}>
+          <Skeleton isLoaded={!isLoading} height={"30px"}>
+            <Heading fontSize={"2xl"}>House hosted by {data?.owner.name}</Heading>
+          </Skeleton>
+          <Skeleton isLoaded={!isLoading} height={"30px"}>
+            <HStack justifyContent={"flex-start"} w="100%">
+              <Text>
+                {data?.toilets} toliet{data?.toilets === 1 ? "" : "s"}
+              </Text>
+              <Text>∙</Text>
+              <Text>
+                {data?.rooms} room{data?.rooms === 1 ? "" : "s"}
+              </Text>
+            </HStack>
+          </Skeleton>
+        </VStack>
+        <Avatar name={data?.owner.name} size={"xl"} src={data?.owner.avatar} />
+      </HStack>
+      <Box mt={10}>
+        <Heading fontSize={"2xl"}>
+          <HStack>
+            <FaStar /> <Text>{data?.rating}</Text>
+            <Text>∙</Text>
+            <Text>
+              {reviewsData?.length} review{reviewsData?.length === 1 ? "" : "s"}
+            </Text>
+          </HStack>
+        </Heading>
+      </Box>
     </Box>
   );
 }

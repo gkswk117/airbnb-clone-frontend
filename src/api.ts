@@ -17,3 +17,10 @@ export const getOneRoom = (something:QueryFunctionContext) => {
   const [_, roomPk] = something.queryKey
   return axiosInstance.get(`rooms/${roomPk}`).then(response=>response.data)
 }
+
+export const getRoomReviews = ({ queryKey }: QueryFunctionContext) => {
+  const [_, roomPk] = queryKey;
+  return axiosInstance
+    .get(`rooms/${roomPk}/reviews`)
+    .then((response) => response.data);
+};
