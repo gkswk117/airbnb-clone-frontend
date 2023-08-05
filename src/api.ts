@@ -42,3 +42,7 @@ export const getMe = () => {
     return error
   })
 }
+
+export const logOut = () => {
+  return axiosInstance.post(`users/log-out`).then((response)=>response.data)
+}

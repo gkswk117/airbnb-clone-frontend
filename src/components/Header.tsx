@@ -5,15 +5,21 @@ import {
   HStack,
   IconButton,
   LightMode,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Stack,
   useColorMode,
   useColorModeValue,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { FaAirbnb, FaMoon, FaSun } from "react-icons/fa";
 import LoginModal from "./LoginModal";
 import SignUpModal from "./SignUpModal";
 import useUser from "../lib/useUser";
+import { logOut } from "../api";
 
 export default function Header() {
   //chakra UI Hook
@@ -26,6 +32,25 @@ export default function Header() {
   //colorMode값은 브라우저의 localstorage에 저장된다.
   const logoColor = useColorModeValue("red.500", "red.300");
   //useColorModeValue: colorMode값이 light면 첫번째 인자를, dark면 두번째 인자를 return한다.
+  const toast = useToast();
+  const onLogOut = async () => {
+    const toastId = toast({
+      title: "Login out...",
+      description: "Sad to see you go...",
+      status: "loading",
+      position: "bottom-right",
+    });
+    /* const data = await logOut();
+    console.log(data); */
+    setTimeout(() => {
+      toast.update(toastId, {
+        status: "success",
+        title: "Done!",
+        description: "See you later!",
+      });
+    }, 5000);
+    return;
+  };
   return (
     <Stack
       justifyContent={"space-between"}
@@ -63,7 +88,14 @@ export default function Header() {
               </LightMode>
             </>
           ) : (
-            <Avatar size={"md"} />
+            <Menu>
+              <MenuButton>
+                <Avatar name={user?.name} src={user?.avatar} size={"md"} />
+              </MenuButton>
+              <MenuList>
+                <MenuItem onClick={onLogOut}>Log out</MenuItem>
+              </MenuList>
+            </Menu>
           )
         ) : (
           <h1>유저 로딩 중</h1>
