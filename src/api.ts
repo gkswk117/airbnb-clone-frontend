@@ -1,5 +1,7 @@
 import { QueryFunctionContext } from "@tanstack/react-query"
 import axios from "axios"
+// fetcher function을 모아둔 파일
+
 /* noob
 const BASE_URL = "http://127.0.0.1:8000/api/v1"
 export async function getRooms(){
@@ -14,6 +16,8 @@ const axiosInstance = axios.create({
 export const getAllRooms = ()=> axiosInstance.get("rooms/").then(response=>response.data)
 export const getOneRoom = (something:QueryFunctionContext) => {
   console.log(something)
+  // useQuery의 두 번째 인자로 콜백함수(getOneRoom)를 넣어주면,
+  // useQuery가 호출될 때 자동으로 콜백함수에 something을 인자로 넣어서 호출해준다.
   const [_, roomPk] = something.queryKey
   return axiosInstance.get(`rooms/${roomPk}`).then(response=>response.data)
 }
@@ -26,3 +30,7 @@ export const getRoomReviews = ({ queryKey }: QueryFunctionContext) => {
     // http://127.0.0.1:8000/api/v1/rooms/15/reviews?page=2 로 get request를 보내면 두 번째 리뷰3개묶음을 볼 수 있다.
     // 디폴트로 첫 번째 리뷰3개를 받는다.
 };
+
+export const getMe = () => {
+  return axiosInstance.get(`users/mypage`).then((response)=>response.data)
+}

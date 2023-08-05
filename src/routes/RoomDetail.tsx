@@ -20,13 +20,15 @@ import { FaStar } from "react-icons/fa";
 export default function RoomDetail() {
   const { roomPk } = useParams();
   const { isLoading, data } = useQuery<IRoomDetail>([`rooms:${roomPk}`, roomPk], getOneRoom);
-  // 변수의 값을 fetch 함수로 보내는 방법 => query key를 이용하면 된다.
+  // fetch 함수는 반드시 프로미스를 리턴해야 하고,
+  // 프로미스 함수의 The last successfully resolved data for the query 값을 data에 담는다.
+  // query key를 이용해서 컴포넌트의 변수값을 fetch 함수로 보낼 수 있다.
   const { data: reviewsData, isLoading: isReviewsLoading } = useQuery<IReview[]>(
     [`rooms`, roomPk, `reviews`],
     getRoomReviews
   );
 
-  console.log(data);
+  // console.log(data);
   // 매번 콘솔로 query를 확인했는데, ReactQueryDevtools 덕분에 작업하는 웹페이지에서 바로 query를 확인할 수 있다.
   return (
     <Box

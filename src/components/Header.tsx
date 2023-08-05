@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   HStack,
@@ -12,19 +13,13 @@ import {
 import { FaAirbnb, FaMoon, FaSun } from "react-icons/fa";
 import LoginModal from "./LoginModal";
 import SignUpModal from "./SignUpModal";
+import useUser from "../lib/useUser";
 
 export default function Header() {
   //chakra UI Hook
-  const {
-    isOpen: isLoginOpen,
-    onOpen: onLoginOpen,
-    onClose: onLoginClose,
-  } = useDisclosure();
-  const {
-    isOpen: isSignUpOpen,
-    onOpen: onSignUpOpen,
-    onClose: onSignUpClose,
-  } = useDisclosure();
+  const { userLoading, isLoggedIn, user } = useUser();
+  const { isOpen: isLoginOpen, onOpen: onLoginOpen, onClose: onLoginClose } = useDisclosure();
+  const { isOpen: isSignUpOpen, onOpen: onSignUpOpen, onClose: onSignUpClose } = useDisclosure();
   //useDisclosure: onOpen 함수를 실행하면 isOpen의 값이 true, onClose 함수를 실행하면 isOpen의 값이 false로 바뀐다.
   const { colorMode, toggleColorMode } = useColorMode();
   //useColorMode: toggleColorMode함수를 실행하면 colorMode의 값을 light->dark, dark->light로 바꿔준다.
@@ -57,12 +52,22 @@ export default function Header() {
           aria-label="Toggle dark mode"
           icon={colorMode === "light" ? <FaMoon /> : <FaSun />}
         />
-        <LightMode>
-          <Button onClick={onLoginOpen}>Log In</Button>
-          <Button onClick={onSignUpOpen} colorScheme={"red"}>
-            Sign Up
-          </Button>
-        </LightMode>
+        {!userLoading ? (
+          !isLoggedIn ? (
+            <>
+              <Button onClick={onLoginOpen}>Log in</Button>
+              <LightMode>
+                <Button onClick={onSignUpOpen} colorScheme={"red"}>
+                  Sign up
+                </Button>
+              </LightMode>
+            </>
+          ) : (
+            <Avatar size={"md"} />
+          )
+        ) : (
+          <h1>유저 로딩 중</h1>
+        )}
         <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />
         <SignUpModal isOpen={isSignUpOpen} onClose={onSignUpClose} />
       </HStack>
