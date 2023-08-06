@@ -1,3 +1,4 @@
+import Cookie from "js-cookie"
 import { QueryFunctionContext } from "@tanstack/react-query"
 import axios from "axios"
 // fetcher function을 모아둔 파일
@@ -44,5 +45,11 @@ export const getMe = () => {
 }
 
 export const logOut = () => {
-  return axiosInstance.post(`users/log-out`).then((response)=>response.data)
+  return axiosInstance.post(`users/log-out`,null, {
+    headers:{
+      "X-CSRFToken":Cookie.get("csrftoken") || ""
+    }
+    // js-cookie 패키지 설치.
+    // request의 header에 브라우저의 쿠키에 저장된 CSRF Token을 담아서 보낸다.
+  }).then((response)=>response.data)
 }

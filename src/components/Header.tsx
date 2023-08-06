@@ -19,11 +19,12 @@ import { FaAirbnb, FaMoon, FaSun } from "react-icons/fa";
 import LoginModal from "./LoginModal";
 import SignUpModal from "./SignUpModal";
 import useUser from "../lib/useUser";
-import { logOut } from "../api";
+import { getMe, logOut } from "../api";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
 export default function Header() {
   //chakra UI Hook
-  const { userLoading, isLoggedIn, user } = useUser();
   const { isOpen: isLoginOpen, onOpen: onLoginOpen, onClose: onLoginClose } = useDisclosure();
   const { isOpen: isSignUpOpen, onOpen: onSignUpOpen, onClose: onSignUpClose } = useDisclosure();
   //useDisclosure: onOpen 함수를 실행하면 isOpen의 값이 true, onClose 함수를 실행하면 isOpen의 값이 false로 바뀐다.
@@ -32,7 +33,14 @@ export default function Header() {
   //colorMode값은 브라우저의 localstorage에 저장된다.
   const logoColor = useColorModeValue("red.500", "red.300");
   //useColorModeValue: colorMode값이 light면 첫번째 인자를, dark면 두번째 인자를 return한다.
+
+  // noob
+  const { isLoading: userLoading, data: user } = useQuery(["me"], getMe, { retry: false });
+  const isLoggedIn = !(user instanceof AxiosError);
+  // pro
+  // const { userLoading, isLoggedIn, user } = useUser();
   const toast = useToast();
+  const queryClient = useQueryClient();
   const onLogOut = async () => {
     const toastId = toast({
       title: "Login out...",
@@ -40,15 +48,15 @@ export default function Header() {
       status: "loading",
       position: "bottom-right",
     });
-    /* const data = await logOut();
-    console.log(data); */
-    setTimeout(() => {
-      toast.update(toastId, {
-        status: "success",
-        title: "Done!",
-        description: "See you later!",
-      });
-    }, 5000);
+    const data = await logOut();
+    console.log(data);
+    queryClient.refetchQueries(["me"]);
+    // logOut() 실행 시 "me"이름을 가진 쿼리를 다시 fetch 시키기.
+    toast.update(toastId, {
+      status: "success",
+      title: "Done!",
+      description: "See you later!",
+    });
     return;
   };
   return (
