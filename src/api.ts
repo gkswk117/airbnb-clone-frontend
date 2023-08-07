@@ -1,7 +1,8 @@
 import Cookie from "js-cookie"
 import { QueryFunctionContext } from "@tanstack/react-query"
 import axios from "axios"
-// fetcher function을 모아둔 파일
+// Fetcher Functions
+// django api로 request를 보내는 functions
 
 /* noob
 const BASE_URL = "http://127.0.0.1:8000/api/v1"
@@ -52,4 +53,18 @@ export const logOut = () => {
     // js-cookie 패키지 설치.
     // request의 header에 브라우저의 쿠키에 저장된 CSRF Token을 담아서 보낸다.
   }).then((response)=>response.data)
+}
+
+export const githubLogIn =(code:string)=>{
+  return axiosInstance
+  .post(
+    `/users/github`,
+    { code },
+    {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    }
+  )
+  .then((response) => response.status)
 }
