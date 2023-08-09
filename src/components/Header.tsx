@@ -22,6 +22,7 @@ import useUser from "../lib/useUser";
 import { getMe, logOut } from "../api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { useEffect } from "react";
 
 export default function Header() {
   //chakra UI Hook
@@ -36,6 +37,10 @@ export default function Header() {
 
   // noob
   const { isLoading: userLoading, data: user } = useQuery(["me"], getMe, { retry: false });
+  useEffect(() => {
+    console.log("user is !!!!!!!!!!!!!!!!!");
+    console.log(user);
+  }, [user]);
   const isLoggedIn = !(user instanceof AxiosError);
   // pro
   // const { userLoading, isLoggedIn, user } = useUser();
