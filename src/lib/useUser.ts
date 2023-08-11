@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { getMe } from "../api";
-import { IUser } from "../types";
 import { AxiosError } from "axios";
 
 export default function useUser(){

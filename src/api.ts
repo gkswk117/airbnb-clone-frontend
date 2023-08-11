@@ -4,8 +4,8 @@ import axios from "axios"
 // Fetcher Functions
 // django api로 request를 보내는 functions
 
-/* noob
 const BASE_URL = "http://127.0.0.1:8000/api/v1"
+/* noob
 export async function getRooms(){
   const response = await fetch(`${BASE_URL}/rooms/`)
   const json = await response.json()
@@ -38,11 +38,20 @@ export const getRoomReviews = ({ queryKey }: QueryFunctionContext) => {
     // 디폴트로 첫 번째 리뷰3개를 받는다.
 };
 
-export const getMe = () => {
-  return axiosInstance.get(`users/mypage`).then((response)=>response.data).catch(error => {
-    console.log(error)
-    return error
-  })
+export const getMe = async() => {
+  const response = await fetch(`${BASE_URL}/users/is-logged-in`, {
+    method: "GET",
+    credentials: "include",
+  });
+  const json = await response.json()
+  if(json.result){
+    return axiosInstance.get(`users/mypage`).then((response)=>response.data).catch(error => {
+      console.log(error)
+      return error
+    })
+  } else{
+    return new Promise(resolve =>resolve(false))
+  }
 }
 
 export const logOut = () => {
@@ -81,4 +90,13 @@ export const kakaoLogIn =(code:string)=>{
     }
   )
   .then((response) => response.status)
+}
+
+export const logIn =(username:string, password:string)=>{
+  return axiosInstance
+  .post(
+    `/users/log-in`,
+    { username, password },
+  )
+  .then((response) => response)
 }

@@ -21,7 +21,6 @@ import SignUpModal from "./SignUpModal";
 import useUser from "../lib/useUser";
 import { getMe, logOut } from "../api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
 import { useEffect } from "react";
 
 export default function Header() {
@@ -37,13 +36,17 @@ export default function Header() {
 
   // noob
   const { isLoading: userLoading, data: user } = useQuery(["me"], getMe, { retry: false });
+  // useQuery의 두 번째 인자는 프로미스를 리턴하는 콜백함수여야 한다.
+  // query가 완료되면 함수 컴포넌트를 다시 실행(re-rendering)시킨다. (useState의 동작과 같음.)
+
+  // pro
+  // const { userLoading, isLoggedIn, user } = useUser();
+
   useEffect(() => {
     console.log("user is !!!!!!!!!!!!!!!!!");
     console.log(user);
   }, [user]);
-  const isLoggedIn = !(user instanceof AxiosError);
-  // pro
-  // const { userLoading, isLoggedIn, user } = useUser();
+
   const toast = useToast();
   const queryClient = useQueryClient();
   const onLogOut = async () => {
@@ -56,7 +59,7 @@ export default function Header() {
     const data = await logOut();
     console.log(data);
     queryClient.refetchQueries(["me"]);
-    // logOut() 실행 시 "me"이름을 가진 쿼리를 다시 fetch 시키기.
+    // useQuery로 보냈던 "me"이름을 가진 쿼리를 기억했다가 logOut() 실행 시 다시 fetch 시키기.
     toast.update(toastId, {
       status: "success",
       title: "Done!",
@@ -91,7 +94,7 @@ export default function Header() {
           icon={colorMode === "light" ? <FaMoon /> : <FaSun />}
         />
         {!userLoading ? (
-          !isLoggedIn ? (
+          !user ? (
             <>
               <Button onClick={onLoginOpen}>Log in</Button>
               <LightMode>
