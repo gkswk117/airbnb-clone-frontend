@@ -26,7 +26,6 @@ export default function GithubConfirm() {
           title: "Welcome!",
           description: "Happy to have you back.",
           status: "success",
-          position: "bottom-right",
         });
         navigate("/");
       } else {
@@ -34,7 +33,6 @@ export default function GithubConfirm() {
           title: "Failed.",
           description: "로그인을 할 수 없습니다.",
           status: "error",
-          position: "bottom-right",
         });
         console.log("status is not 200.");
       }

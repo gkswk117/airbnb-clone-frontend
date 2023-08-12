@@ -54,7 +54,7 @@ export default function Header() {
       title: "Login out...",
       description: "Sad to see you go...",
       status: "loading",
-      position: "bottom-right",
+      // position: "bottom-right",
     });
     const data = await logOut();
     console.log(data);
@@ -116,8 +116,8 @@ export default function Header() {
         ) : (
           <h1>유저 로딩 중</h1>
         )}
-        <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />
-        <SignUpModal isOpen={isSignUpOpen} onClose={onSignUpClose} />
+        <LoginModal isLoginOpen={isLoginOpen} onLoginClose={onLoginClose} />
+        <SignUpModal isSignOpen={isSignUpOpen} onSignClose={onSignUpClose} />
       </HStack>
     </Stack>
   );
