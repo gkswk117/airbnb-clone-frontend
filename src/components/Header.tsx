@@ -24,6 +24,9 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 export default function Header() {
+  const toast = useToast();
+  const queryClient = useQueryClient();
+
   //chakra UI Hook
   const { isOpen: isLoginOpen, onOpen: onLoginOpen, onClose: onLoginClose } = useDisclosure();
   const { isOpen: isSignUpOpen, onOpen: onSignUpOpen, onClose: onSignUpClose } = useDisclosure();
@@ -33,22 +36,11 @@ export default function Header() {
   //colorMode값은 브라우저의 localstorage에 저장된다.
   const logoColor = useColorModeValue("red.500", "red.300");
   //useColorModeValue: colorMode값이 light면 첫번째 인자를, dark면 두번째 인자를 return한다.
-
-  // noob
   const { isLoading: userLoading, data: user } = useQuery(["me"], getMe, { retry: false });
   // useQuery의 두 번째 인자는 프로미스를 리턴하는 콜백함수여야 한다.
   // query가 완료되면 함수 컴포넌트를 다시 실행(re-rendering)시킨다. (useState의 동작과 같음.)
+  useEffect(() => {}, [user]);
 
-  // pro
-  // const { userLoading, isLoggedIn, user } = useUser();
-
-  useEffect(() => {
-    console.log("user is !!!!!!!!!!!!!!!!!");
-    console.log(user);
-  }, [user]);
-
-  const toast = useToast();
-  const queryClient = useQueryClient();
   const onLogOut = async () => {
     const toastId = toast({
       title: "Login out...",
@@ -67,6 +59,7 @@ export default function Header() {
     });
     return;
   };
+
   return (
     <Stack
       justifyContent={"space-between"}

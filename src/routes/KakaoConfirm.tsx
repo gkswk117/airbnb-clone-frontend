@@ -12,6 +12,7 @@ export default function KakaoConfirm() {
   const location = useLocation();
   // useParams(path parameter)랑 useLocation(query parameter)에 대한 내용 => 네이버 메모
   // 현재 경로에 대한 정보 객체
+
   const confirmLogin = async () => {
     const params = new URLSearchParams(location.search);
     const code = params.get("code");
@@ -43,6 +44,7 @@ export default function KakaoConfirm() {
   useEffect(() => {
     confirmLogin();
   }, []);
+
   return (
     <>
       <VStack justifyContent={"center"} minH="100vh">

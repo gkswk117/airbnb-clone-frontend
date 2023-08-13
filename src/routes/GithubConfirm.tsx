@@ -12,6 +12,7 @@ export default function GithubConfirm() {
   const location = useLocation();
   // useParams(path parameter)랑 useLocation(query parameter)에 대한 내용 => 네이버 메모
   // 현재 경로에 대한 정보 객체
+
   const confirmLogin = async () => {
     const params = new URLSearchParams(location.search);
     // URLSearchParams는 query string을 객체로 바꿔준다. 반대로도 가능하다.
@@ -41,6 +42,7 @@ export default function GithubConfirm() {
   useEffect(() => {
     confirmLogin();
   }, []);
+
   return (
     <>
       <VStack justifyContent={"center"} minH="100vh">

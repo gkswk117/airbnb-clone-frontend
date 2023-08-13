@@ -24,7 +24,7 @@ export default function Home() {
     console.log(rooms)
   }, [rooms])
   */
-  // pro
+  // pro - useQuery의 위력
   const { isLoading, data } = useQuery<IRoomList[]>(["rooms"], getAllRooms);
   //첫 번째 인자로 캐싱key를 받는다.
   //두 번째 인자로 Promise를 반환하는 함수를 받는다.
