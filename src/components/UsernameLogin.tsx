@@ -220,8 +220,8 @@ export default function UsernameLogin(prop: kkk) {
   // handleSubmit을 이용하면 user가 잘못된 데이터를 보냈을때,
   // html에서 뿐만 아니라 자바스크립트 코드에서도 검증할 수 있고, nice하게 에러 메세지를 사용자에게 띄워 줄 수 있다.
   const mutation = useMutation(logIn, {
-    // 데이터의 처리상태(query 진행상태)를 실시간으로 확인할 수 있는 hook.
-    // 원래는 onSuccess에 담긴 콜백 함수 내부 코드가 onSubmit 함수 내부에 있었고,
+    // API나 DB에 post작업을 하는 함수(logIn)의 데이터 처리상태(query 진행상태)를 실시간으로 확인할 수 있는 hook.
+    // 원래는 onSuccess에 담긴 콜백 함수(logIn) 내부 코드가 onSubmit 함수 내부에 있었고,
     // logIn 함수 처리가 끝날 때까지 무작정 기다렸다. => const response = await logIn(loginForm.watch().username, loginForm.watch().password)
     // 여기에서는 onSubmit 내부에는 useMutation의 mutate 메소드를 호출하는 코드 밖에 없고,
     // useMutation 내부에서 모든걸 처리한다.

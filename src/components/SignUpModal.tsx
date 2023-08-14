@@ -15,6 +15,9 @@ import {
 import { FaEnvelope, FaLock, FaUserNinja, FaUserSecret } from "react-icons/fa";
 import SocialLogin from "./SocialLogin";
 
+/* 코드 챌린지
+- Sign Up Form 작성해보기
+- useMutation을 사용해서 KakaoConfirm, GithubConfim 리팩토링 해보기*/
 interface kk {
   isSignOpen: boolean;
   onSignClose(): void;

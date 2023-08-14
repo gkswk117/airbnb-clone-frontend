@@ -41,6 +41,8 @@ export const getRoomReviews = ({ queryKey }: QueryFunctionContext) => {
 export const getMe = async() => {
   // Error로 비로그인 상태 확인하는게 싫어서 is-loggid-in query 추가함.
   // 이제 더이상 브라우저 콘솔창에 빨간색으로 AxiosError가 뜨지 않음.
+  // 로그인 된 상태 => resolved data = user
+  // 로그아웃 된 상태 => resolved data = false
   const response = await fetch(`${BASE_URL}/users/is-logged-in`, {
     method: "GET",
     credentials: "include",
