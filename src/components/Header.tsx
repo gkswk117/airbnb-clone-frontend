@@ -40,7 +40,10 @@ export default function Header() {
   const { isLoading: userLoading, data: user } = useQuery(["me"], getMe, { retry: false });
   // useQuery의 두 번째 인자는 프로미스를 리턴하는 콜백함수여야 한다.
   // query가 완료되면 함수 컴포넌트를 다시 실행(re-rendering)시킨다. (useState의 동작과 같음.)
-  useEffect(() => {}, [user]);
+  useEffect(() => {
+    console.log("user is");
+    console.log(user);
+  }, [user]);
 
   const onLogOut = async () => {
     const toastId = toast({
@@ -105,7 +108,7 @@ export default function Header() {
               <MenuList>
                 {user?.is_host ? (
                   <Link to="/rooms/upload">
-                    <MenuItem onClick={onLogOut}>Upload room</MenuItem>
+                    <MenuItem>Upload room</MenuItem>
                   </Link>
                 ) : null}
                 <MenuItem onClick={onLogOut}>Log out</MenuItem>

@@ -128,3 +128,16 @@ export const logIn =({username, password}:IFrom)=>{
   )
   .then((response) => response)
 }
+
+export const getAmenities = () => axiosInstance.get(`rooms/amenities/`).then(response=>response.data)
+// 질문) 왜 얘만 뒤에 trailing slash(/)를 안 붙이면 CORS 에러가 뜨는지 모르겠음. 왜?
+// 나랑 똑같은 의문을 가진 블로그 => https://velog.io/@jimin_lee/CORS%EB%9E%80
+
+export const getRoomCategories = () => axiosInstance.get(`categories/room/`).then(response=>response.data.categories)
+export const getExperienceCategories = () => axiosInstance.get(`categories/experience/`).then(response=>response.data.categories)
+// getRoomCategories와 getExperienceCategories를 만들면서 특이한 점을 찾았다!!! 뭐지???
+// 처음에는 trailing slash(/)를 안 붙이고 실행시키니 잘 동작함.
+// 그 다음 trailing slash(/) 붙이고 실행시켜도 여전히 잘 동작함
+// 하지만, 다시 trailing slash(/)를 안 붙이고 실행시키니 CORS 에러가 뜸.
+// 그 이후로는 무조건 trailing slash(/) 붙여야지만 CORS 에러가 없이 정상적으로 실행됨.
+// 아마 django 내부 시스템 상으로 뭐가 있을 듯.

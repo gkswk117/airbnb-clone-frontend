@@ -1,10 +1,12 @@
 import {
   Box,
+  Button,
   Checkbox,
   Container,
   FormControl,
   FormHelperText,
   FormLabel,
+  Grid,
   Heading,
   Input,
   InputGroup,
@@ -13,15 +15,28 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
-import { FaBed, FaMoneyBill, FaToilet } from "react-icons/fa";
+import { FaBed, FaToilet } from "react-icons/fa";
 import HostOnlyPage from "../components/HostOnlyPage";
 import ProtectedPage from "../components/ProtectedPage";
+import { getAmenities, getRoomCategories } from "../api";
+import { useQuery } from "@tanstack/react-query";
+import { IAmenity, ICategory } from "../types";
 
 export default function UploadRoom() {
   // useUser를 만들었던것 처럼 useHostOnlyPage hook을 만들어서 사용할 수 있다.
   // 궁금하면 nico commit 따로 확인해보기.
   // https://github.com/nomadcoders/airbnb-clone-frontend/commit/4411fc86e29f17bfa64db6be49e3fe023bed8ae5
   // 나는 개인적으로 hook으로 사용하는게 더 좋아보임.
+  const { isLoading: isAmenityLoading, data: amenityData } = useQuery<IAmenity[]>(
+    ["amenities"],
+    getAmenities
+  );
+  const { isLoading: isCategoryLoading, data: categoryData } = useQuery<ICategory[]>(
+    ["categories"],
+    getRoomCategories
+  );
+  console.log(amenityData);
+  console.log(categoryData);
   return (
     <ProtectedPage>
       <HostOnlyPage>
@@ -35,7 +50,7 @@ export default function UploadRoom() {
         >
           <Container>
             <Heading textAlign={"center"}>Upload Room</Heading>
-            <VStack spacing={5} as="form" mt={5}>
+            <VStack spacing={10} as="form" mt={5}>
               <FormControl>
                 <FormLabel>Name</FormLabel>
                 <Input required type="text" />
@@ -83,13 +98,34 @@ export default function UploadRoom() {
               </FormControl>
               <FormControl>
                 <FormLabel>Kind of room</FormLabel>
-                <Select placeholder="Choose a kind">
-                  <option value="entire_place">Entire Place</option>
-                  <option value="private_room">Private Room</option>
-                  <option value="shared_room">Shared Room</option>
-                </Select>
                 <FormHelperText>What kind of room are you renting?</FormHelperText>
+                <Select placeholder="Choose a kind"></Select>
               </FormControl>
+              <FormControl>
+                <FormLabel>Category</FormLabel>
+                <Select placeholder="Choose a category">
+                  {categoryData?.map((e) => (
+                    <option key={e.pk} value={e.pk}>
+                      {e.name}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl>
+                <FormLabel>Amenities</FormLabel>
+                <FormHelperText>Which amenities does your room have?</FormHelperText>
+                <Grid templateColumns={"1fr 1fr"} gap={5}>
+                  {amenityData?.map((e) => (
+                    <Box key={e.pk}>
+                      <Checkbox value={e.pk}>{e.name}</Checkbox>
+                      <FormHelperText>{e.description}</FormHelperText>
+                    </Box>
+                  ))}
+                </Grid>
+              </FormControl>
+              <Button as="input" type="submit" colorScheme="red" size="lg" w="100%">
+                Upload Room
+              </Button>
             </VStack>
           </Container>
         </Box>
