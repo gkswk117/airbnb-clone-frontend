@@ -10,31 +10,27 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-interface roomType {
-  pk: number;
-  name: string;
-  city: string;
-  country: string;
-  rating: number | string;
-  price: number;
-}
-export default function Room(props: roomType) {
+import { IRoomList } from "../types";
+import { useState } from "react";
+
+export default function Room(props: IRoomList) {
   const gray = useColorModeValue("gray.600", "gray.300");
+  console.log(props.photo_set);
+  const [thumbnailPhoto, setThumbnailPhoto] = useState("");
+  // if (props.photo_set.length > 0) {
+  //   setThumbnailPhoto(props.photo_set[0].file);
+  // }
   return (
     <Link to={`/rooms/${props.pk}`}>
       <VStack alignItems={"flex-start"}>
-        <Box position="relative" overflow={"hidden"} mb={3} rounded="2xl">
-          <Image
-            minH="100"
-            src="https://a0.muscache.com/im/pictures/miso/Hosting-47181423/original/39c9d4e7-78d0-4807-9f0d-3029d987d02a.jpeg?im_w=720"
-          />
-          <Button
-            variant={"unstyled"}
-            position="absolute"
-            top={0}
-            right={0}
-            color="white"
-          >
+        <Box width="100%" position="relative" overflow={"hidden"} mb={3} rounded="2xl">
+          {props.photo_set.length > 0 ? (
+            <Image minH="280" src={props.photo_set[0].file} />
+          ) : (
+            <Box minH="280px" h="100%" w="100%" p={10} bg="green.400" />
+          )}
+
+          <Button variant={"unstyled"} position="absolute" top={0} right={0} color="white">
             <FaRegHeart size="20px" />
           </Button>
         </Box>

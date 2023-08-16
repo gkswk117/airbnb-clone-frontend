@@ -5,6 +5,7 @@ import RoomSkeleton from "../components/RoomSkeleton";
 import { useQuery } from "@tanstack/react-query";
 import { getAllRooms } from "../api";
 import { IRoomList } from "../types";
+import { convertTypeAcquisitionFromJson } from "typescript";
 
 export default function Home() {
   /* noob
@@ -30,6 +31,8 @@ export default function Home() {
   //두 번째 인자로 Promise를 반환하는 함수를 받는다.
 
   //"repeat(6, 1fr)" === "1fr 1fr 1fr 1fr 1fr 1fr"
+  console.log("data is !!!!!!!!!!!!!!!!!!!!!!!");
+  console.log(data);
   return (
     <Grid
       mt={10}
@@ -68,6 +71,8 @@ export default function Home() {
             name={room.name}
             city={room.city}
             country={room.country}
+            photo_set={room.photo_set}
+            is_owner={room.is_owner}
             rating={room.rating === "리뷰 없음." ? 0 : room.rating}
             price={room.price}
           />

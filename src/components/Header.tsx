@@ -79,7 +79,7 @@ export default function Header() {
         아래 useColorModeValue hook을 사용해 아래와 같이 간단히 바꿀 수 있다.
         IconButton의 icon도 hook을 이용해 바꿀 수 있다.
         */}
-      <Box color={logoColor}>
+      <Box as="a" href="/" color={logoColor}>
         <FaAirbnb size={"48px"} />
       </Box>
       {/*Box로 감싼 이유: FaAirbnb는 Chakra UI가 아니다. 그래서 red.500값을 못쓰고, #E53E3E값을 직접 입력해줘야 한다.*/}

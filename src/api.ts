@@ -1,9 +1,11 @@
 import Cookie from "js-cookie"
 import { QueryFunctionContext } from "@tanstack/react-query"
 import axios from "axios"
+import { IUploadRoomVariables } from "./types"
 // Fetcher Functions
 // django api로 request를 보내는 functions
 interface IFrom{username:string, password:string}
+
 const BASE_URL = "http://127.0.0.1:8000/api/v1"
 /* noob
 export async function getRooms(){
@@ -141,3 +143,14 @@ export const getExperienceCategories = () => axiosInstance.get(`categories/exper
 // 하지만, 다시 trailing slash(/)를 안 붙이고 실행시키니 CORS 에러가 뜸.
 // 그 이후로는 무조건 trailing slash(/) 붙여야지만 CORS 에러가 없이 정상적으로 실행됨.
 // 아마 django 내부 시스템 상으로 뭐가 있을 듯.
+
+export const uploadRoom =(data:IUploadRoomVariables)=>{
+  console.log(data)
+
+  return axiosInstance.post("rooms/", data, {
+    headers: {
+      "X-CSRFToken": Cookie.get("csrftoken") || "",
+    },
+  }).then(response=>response).catch(e=>{console.log(e)
+  return e})
+}
