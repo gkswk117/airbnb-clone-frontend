@@ -20,7 +20,7 @@ export default function Room(props: IRoomList) {
       <VStack alignItems={"flex-start"}>
         <Box width="100%" position="relative" overflow={"hidden"} mb={3} rounded="2xl">
           {props.photo_set.length > 0 ? (
-            <Image minH="280" src={props.photo_set[0].file} />
+            <Image objectFit={"cover"} minH="280" src={props.photo_set[0].file} />
           ) : (
             <Box minH="280px" h="100%" w="100%" p={10} bg="green.400" />
           )}
