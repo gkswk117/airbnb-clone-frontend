@@ -12,6 +12,7 @@ export interface IRoomList {
   price: number;
   rating: number | string;
   is_owner: boolean;
+  is_wishlist: boolean;
   photo_set: IRoomPhotoPhoto[];
 }
 
@@ -42,8 +43,6 @@ export interface IRoomDetail extends IRoomList {
   address: string;
   pet_friendly: true;
   kind: string;
-  is_owner: boolean;
-  is_liked: boolean;
   category: ICategory
   owner: IRoomOwner;
   amenities: IAmenity[];

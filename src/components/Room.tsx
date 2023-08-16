@@ -1,4 +1,4 @@
-import { FaRegHeart, FaStar } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 import {
   Box,
   Button,
@@ -15,11 +15,6 @@ import { useState } from "react";
 
 export default function Room(props: IRoomList) {
   const gray = useColorModeValue("gray.600", "gray.300");
-  console.log(props.photo_set);
-  const [thumbnailPhoto, setThumbnailPhoto] = useState("");
-  // if (props.photo_set.length > 0) {
-  //   setThumbnailPhoto(props.photo_set[0].file);
-  // }
   return (
     <Link to={`/rooms/${props.pk}`}>
       <VStack alignItems={"flex-start"}>
@@ -29,10 +24,15 @@ export default function Room(props: IRoomList) {
           ) : (
             <Box minH="280px" h="100%" w="100%" p={10} bg="green.400" />
           )}
-
-          <Button variant={"unstyled"} position="absolute" top={0} right={0} color="white">
-            <FaRegHeart size="20px" />
-          </Button>
+          {props.is_wishlist ? (
+            <Button variant={"unstyled"} position="absolute" top={0} right={0}>
+              <FaHeart color="red" size="20px" />
+            </Button>
+          ) : (
+            <Button variant={"unstyled"} position="absolute" top={0} right={0} color="white">
+              <FaRegHeart size="20px" />
+            </Button>
+          )}
         </Box>
         <Box>
           <Grid gap={2} templateColumns={"6fr 1fr"}>
