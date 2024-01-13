@@ -14,7 +14,9 @@ const router = createBrowserRouter([
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
-    //children과 Outlet의 조합
+    // react-router-dom의 기능 => children과 Outlet의 조합
+    // "/"로 들어가는 모든 부분은 Root 포맷을 따르고(Header + Outlet)
+    // children에 있는 컴포넌트들이 해당 path로 들어갔을때 Outlet에 렌더링 된다.
     children: [
       {
         path: "",

@@ -31,6 +31,7 @@ export default function UploadRoom() {
   // 궁금하면 nico commit 따로 확인해보기.
   // https://github.com/nomadcoders/airbnb-clone-frontend/commit/4411fc86e29f17bfa64db6be49e3fe023bed8ae5
   // 나는 개인적으로 hook으로 사용하는게 더 좋아보임.
+  // useHostOnlyPage()
   const { isLoading: isAmenityLoading, data: amenityData } = useQuery<IAmenity[]>(
     ["amenities"],
     getAmenities

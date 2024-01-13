@@ -19,3 +19,17 @@ export default function HostOnlyPage({ children }: IHostOnlyPageProps) {
   }, [userLoading, user, navigate]);
   return <>{children}</>;
 }
+
+// export default function useHostOnlyPage() {
+//   const { isLoading: userLoading, data: user } = useQuery(["me"], getMe, { retry: false });
+//   const navigate = useNavigate();
+//   useEffect(() => {
+//     if (!userLoading) {
+//       if (!user?.is_host) {
+//         console.log("You are not host.");
+//         navigate("/");
+//       }
+//     }
+//   }, [userLoading, user, navigate]);
+//   return;
+// }
